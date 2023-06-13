@@ -1,6 +1,7 @@
 ﻿namespace QuizApplication.Entities
 {
-    public class ISoftDeletable
+    public interface ISoftDeletable
     {
+        public bool IsDeleted { get; set; }
     }
 }
