@@ -39,30 +39,29 @@ namespace QuizApplication.Repositories.Implementation
             var questions = _context.Questions
                 .Where(expression)
                 .Include(u => u.User)
-                .Include(c => c.Comments)
+                .Include(c => c.Answers)
                 .ThenInclude(u => u.User)
-                .Include(qr => qr.QuestionReports)
                 .ToList();
 
             return questions;
         }
 
-        public List<CategoryQuestion> GetQuestionByCategoryId(string categoryId)
+        public List<SubjectQuestion> GetQuestionBySubjectId(string subjectId)
         {
-            var questions = _context.CategoryQuestions
-                .Include(c => c.Category)
+            var questions = _context.SubjectQuestions
+                .Include(c => c.Subject)
                 .Include(c => c.Question)
                 .ThenInclude(c => c.User)
-                .Where(c => c.CategoryId.Equals(categoryId))
+                .Where(c => c.SubjectId.Equals(subjectId))
                 .ToList();
 
             return questions;
         }
 
-        public List<CategoryQuestion> SelectQuestionByCategory()
+        public List<SubjectQuestion> SelectQuestionBySubject()
         {
-            var questions = _context.CategoryQuestions
-                .Include(c => c.Category)
+            var questions = _context.SubjectQuestions
+                .Include(c => c.Subject)
                 .Include(c => c.Question)
                 .ThenInclude(c => c.User)
                 .ToList();

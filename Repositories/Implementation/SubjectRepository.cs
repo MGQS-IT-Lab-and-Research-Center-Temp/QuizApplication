@@ -1,6 +1,13 @@
-﻿namespace QuizApplication.Repositories.Implementation
+﻿using QuizApplication.Context;
+using QuizApplication.Entities;
+using QuizApplication.Repositories.Interface;
+
+namespace QuizApplication.Repositories.Implementation
 {
-    public class SubjectRepository
+    public class SubjectRepository : BaseRepository<Subject>, ISubjectRepository
     {
+        public SubjectRepository(QuizApplicationContext context) : base(context)
+        {
+        }
     }
 }
