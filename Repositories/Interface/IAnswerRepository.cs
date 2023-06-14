@@ -1,6 +1,10 @@
-﻿namespace QuizApplication.Repositories.Interface
+﻿using QuizApplication.Entities;
+
+namespace QuizApplication.Repositories.Interface
 {
-    public interface IAnswerRepository
+    public interface IAnswerRepository : IRepository<Answer>
     {
+       
     }
+    
 }
