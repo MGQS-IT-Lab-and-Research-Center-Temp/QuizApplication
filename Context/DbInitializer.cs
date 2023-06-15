@@ -1,4 +1,5 @@
 ﻿using QuizApplication.Entities;
+using QuizApplication.Helper;
 
 namespace QuizApplication.Context
 {
@@ -47,6 +48,7 @@ namespace QuizApplication.Context
             context.SaveChanges();
 
             var password = "Haseeb123";
+            var salt = HashingHelper.GenerateSalt();
             var admin = context.Roles.Where(r => r.ClassName == "Admin").SingleOrDefault();
 
             var users = new User[]
@@ -54,6 +56,8 @@ namespace QuizApplication.Context
                 new User()
                 {
                     UserName = "Haseeb",
+                    HashSalt = salt,
+                    PasswordHash = HashingHelper.HashPassword(password, salt),
                     Email = "Haseeb@gmail.com",
                     RoleId = admin.Id,
                     CreatedBy = "System",
