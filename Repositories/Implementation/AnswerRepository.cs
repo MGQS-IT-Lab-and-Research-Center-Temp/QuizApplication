@@ -1,6 +1,7 @@
 ﻿using QuizApplication.Context;
 using QuizApplication.Entities;
 using QuizApplication.Repositories.Interface;
+using QuizApplication.Service.Interface;
 
 namespace QuizApplication.Repositories.Implementation
 {
