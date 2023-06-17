@@ -189,7 +189,7 @@ namespace QuizApplication.Service.Implementation
                         QuestionText = question.AskedQuestion,
                         UserName = question.User.UserName,
                         ImageUrl = question.ImageUrl,
-                        Answers = question.Answer
+                        Answers = question.Answers
                         .Select(answer => new AnswerViewModel
                         {
                             Id = answer.Id,
@@ -243,7 +243,7 @@ namespace QuizApplication.Service.Implementation
                 UserId = question.UserId,
                 UserName = question.User.UserName,
                 ImageUrl = question.ImageUrl,
-                Answers = question.Answer
+                Answers = question.Answers
                             .Where(c => !c.IsDeleted)
                             .Select(c => new AnswerViewModel
                             {
@@ -315,7 +315,7 @@ namespace QuizApplication.Service.Implementation
                         QuestionText = question.AskedQuestion,
                         UserName = question.User.UserName,
                         ImageUrl = question.ImageUrl,
-                        Answers = question.Answer
+                        Answers = question.Answers
                             .Where(c => !c.IsDeleted)
                             .Select(c => new AnswerViewModel
                             {

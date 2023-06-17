@@ -1,4 +1,4 @@
-﻿using Nest;
+﻿
 using System.ComponentModel.DataAnnotations;
 
 namespace QuizApplication.Models.Auth
