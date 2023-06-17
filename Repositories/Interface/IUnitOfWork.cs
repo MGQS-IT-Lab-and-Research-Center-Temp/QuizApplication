@@ -6,7 +6,7 @@
         IUserRepository Users { get; }
         ISubjectRepository Subjects { get; }
         IQuestionRepository Questions { get; }
-        IAnswerRepository Answeres { get; }
+        IAnswerRepository Answers { get; }
         int SaveChanges();
     }
 }

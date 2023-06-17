@@ -78,7 +78,7 @@ namespace QuizApplication.Service.Implementation
             var response = new BaseResponseModel();
             var modifiedBy = _httpContextAccessor.HttpContext.User.Identity.Name;
             var questionExist = _unitOfWork.Questions.Exists(c => c.Id == questionId);
-            var hasComment = _unitOfWork.Answeres.Exists(c => c.Id == questionId);
+            var hasComment = _unitOfWork.Answers.Exists(c => c.Id == questionId);
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var user = _unitOfWork.Users.Get(userIdClaim);
 
@@ -130,7 +130,7 @@ namespace QuizApplication.Service.Implementation
                                         && q.IsClosed == false));
 
             var questionExist = _unitOfWork.Questions.Exists(expression);
-            var hasComment = _unitOfWork.Answeres.Exists(c => c.Id == questionId);
+            var hasComment = _unitOfWork.Answers.Exists(c => c.Id == questionId);
 
             if (!questionExist)
             {
