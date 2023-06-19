@@ -1,0 +1,43 @@
+﻿@model QuizApplication.Models.Question.CreateQuestionViewModel
+
+@{
+    ViewData["Title"] = "Create A Question";
+}
+
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_Select2CssPartial");
+    }
+}
+
+<div class="body">
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create">
+                <div class="col-md-12 mb-2">
+                    <label class="form-label">Subject:</label>
+                    <select asp-for="SubjectIds" class="form-control" asp-items="@ViewBag.Subjects" data-placeholder="Select Subject" multiple>
+                    </select>
+                    <span asp-validation-for="SubjectIds" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <label class="form-label">Question:</label>
+                    <textarea class="form-control" placeholder="Enter your question" asp-for="QuestionAsked"></textarea>
+                    <span asp-validation-for="QuestionAsked" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Create Question</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_Select2JsPartial");
+    }
+}

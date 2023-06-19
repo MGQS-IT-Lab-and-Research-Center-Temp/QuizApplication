@@ -1,0 +1,30 @@
+﻿@model QuizApplication.Models.Answer.CreateAnswerViewModel
+@{
+    ViewData["Title"] = "Write Answer";
+    var questionId = ViewContext.RouteData.Values["id"];
+}
+
+<div class="body">
+
+    @await Html.PartialAsync("_NoModelAlert")
+
+    <div class="row">
+        <div class="col-md-6">
+            <hr />
+            <form asp-action="create">
+                <input type="hidden" class="form-control" asp-for="QuestionId" value="@questionId" />
+
+                <div class="col-md-12 mb-2">
+                    <label for="AnswerChoosed" class="form-label">Answer:</label>
+                    <textarea class="form-control" placeholder="Enter Your Answer" asp-for="AnswerChoosed"></textarea>
+                    <span asp-validation-for="AnswerChoosed" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Submit Answer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

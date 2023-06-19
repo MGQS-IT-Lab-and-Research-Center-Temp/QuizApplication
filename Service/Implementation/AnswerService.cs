@@ -41,11 +41,7 @@ namespace QuizApplication.Service.Implementation
                 return response;
             }
 
-            if (string.IsNullOrWhiteSpace(request.AnswerChoosed))
-            {
-                response.Message = "Answer is required!";
-                return response;
-            }
+            
 
             var answer = new Answer
             {
@@ -112,6 +108,7 @@ namespace QuizApplication.Service.Implementation
 
             return response;
         }
+
     }
 
 }

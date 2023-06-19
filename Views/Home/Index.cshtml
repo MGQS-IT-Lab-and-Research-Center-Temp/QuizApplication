@@ -1,8 +1,36 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using System.Security.Claims;
+@model List<QuizApplication.Models.Question.QuestionViewModel>
+
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@await Html.PartialAsync("_ListAlert", Model)
+
+@if (Model is not null)
+{
+    @foreach (var question in Model)
+    {
+        <h4>@question.QuestionText</h4>
+
+        <div>
+            
+            <button type="button" class="btn btn-primary btn-sm">
+                Answers
+                <span class="badge rounded-pill bg-danger">
+                    @question.Answers.Count
+                    <span class="visually-hidden">Comments Count</span>
+                </span>
+            </button>
+            <a asp-controller="Answer" asp-action="Create" asp-route-id="@question.Id" class="btn btn-success btn-sm">
+                Your answer
+            </a>
+            
+        </div>
+        <div>
+          
+            <button type="submit" class="btn">Submit</button>
+           
+        </div>
+    }
+}

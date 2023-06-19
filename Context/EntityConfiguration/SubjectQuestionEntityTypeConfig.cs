@@ -8,7 +8,7 @@ namespace QuizApplication.Context.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<SubjectQuestion> builder)
         {
-            builder.ToTable("CategoryQuestions");
+            builder.ToTable("SubjectQuestions");
             builder.Ignore(cq => cq.Id);
             builder.HasKey(cq => new { cq.SubjectId, cq.QuestionId });
 

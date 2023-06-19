@@ -1,0 +1,41 @@
+﻿@model List<QuizApplication.Models.Subject.SubjectViewModel>
+@{
+    ViewData["Title"] = "Subject";
+    int count = 1;
+}
+
+@*<div>
+    <a asp-controller="Subject" asp-action="Create" class="btn btn-outline-primary">New Subject</a>
+</div>*@
+
+@await Html.PartialAsync("_ListAlert", Model)
+
+@if (Model is not null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">S/N</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td scope="row">@count</td>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <div class="btn-group">
+                            <a asp-controller="Question" asp-action="GetQuestionBySubject" asp-route-id="@item.Id" class="btn btn-primary">View Questions</a>
+                        </div>
+                    </td>
+                </tr>
+                count++;
+            }
+        </tbody>
+    </table>
+}
