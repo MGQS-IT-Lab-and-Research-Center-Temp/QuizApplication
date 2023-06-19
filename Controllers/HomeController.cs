@@ -57,7 +57,6 @@ namespace QuizApplication.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [RedirectIfAuthenticated]
         public IActionResult Login()
         {
             return View();

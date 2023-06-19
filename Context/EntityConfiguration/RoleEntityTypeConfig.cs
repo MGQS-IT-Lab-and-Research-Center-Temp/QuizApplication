@@ -13,7 +13,7 @@ namespace QuizApplication.Context.EntityConfiguration
             builder.HasKey(r => r.Id);
 
             builder.Property(r => r.ClassName)
-                   .HasMaxLength(50)
+                   .HasMaxLength(60)
                    .IsRequired();
 
             builder.HasIndex(r => r.ClassName)

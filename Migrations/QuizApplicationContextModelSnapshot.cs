@@ -16,7 +16,7 @@ namespace QuizApplication.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "7.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("QuizApplication.Entities.Answer", b =>
@@ -57,7 +57,7 @@ namespace QuizApplication.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Answers", (string)null);
                 });
 
             modelBuilder.Entity("QuizApplication.Entities.Question", b =>
@@ -109,8 +109,8 @@ namespace QuizApplication.Migrations
 
                     b.Property<string>("ClassName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
@@ -136,7 +136,7 @@ namespace QuizApplication.Migrations
                     b.HasIndex("ClassName")
                         .IsUnique();
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Role", (string)null);
                 });
 
             modelBuilder.Entity("QuizApplication.Entities.Subject", b =>
@@ -173,7 +173,7 @@ namespace QuizApplication.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Subjects", (string)null);
                 });
 
             modelBuilder.Entity("QuizApplication.Entities.SubjectQuestion", b =>
@@ -203,7 +203,7 @@ namespace QuizApplication.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("CategoryQuestions", (string)null);
+                    b.ToTable("SubjectQuestions", (string)null);
                 });
 
             modelBuilder.Entity("QuizApplication.Entities.User", b =>

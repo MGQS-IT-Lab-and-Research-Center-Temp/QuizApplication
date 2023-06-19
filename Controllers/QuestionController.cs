@@ -36,8 +36,8 @@ namespace QuizApplication.Controllers
             return View(questions.Data);
         }
 
-        
 
+        
         [HttpPost]
         public IActionResult Create(CreateQuestionViewModel request)
         {

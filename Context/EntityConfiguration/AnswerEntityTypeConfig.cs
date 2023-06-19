@@ -8,7 +8,7 @@ namespace QuizApplication.Context.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Answer> builder)
         {
-            builder.ToTable("Comments");
+            builder.ToTable("Answers");
 
             builder.HasKey(c => c.Id);
 
