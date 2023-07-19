@@ -43,7 +43,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                {
                    config.LoginPath = "/home/login";
                    config.Cookie.Name = "QuizApplication";
-                   config.ExpireTimeSpan = TimeSpan.FromDays(1);
+                   config.ExpireTimeSpan = TimeSpan.FromHours(1);
                    config.AccessDeniedPath = "/home/privacy";
                });
 builder.Services.AddHttpContextAccessor();

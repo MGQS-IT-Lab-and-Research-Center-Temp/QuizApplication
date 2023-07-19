@@ -8,7 +8,7 @@
         public string ImageUrl { get; set; }
         public bool IsClosed { get; set; }
         public ICollection<SubjectQuestion> SubjectQuestions { get; set; } = new HashSet<SubjectQuestion>();
-        public ICollection<Answer> Answers { get; set; } = new HashSet<Answer>();
+        public Answer Answers { get; set; }
        
     }
 }

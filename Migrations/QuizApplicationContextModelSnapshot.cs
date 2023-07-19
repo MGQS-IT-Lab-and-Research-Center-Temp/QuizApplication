@@ -28,6 +28,15 @@ namespace QuizApplication.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("AnswerText1")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AnswerText2")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AnswerText3")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
 
@@ -136,7 +145,7 @@ namespace QuizApplication.Migrations
                     b.HasIndex("ClassName")
                         .IsUnique();
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("QuizApplication.Entities.Subject", b =>
