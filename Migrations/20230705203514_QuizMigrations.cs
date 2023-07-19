@@ -15,7 +15,7 @@ namespace QuizApplication.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Role",
+                name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
@@ -29,7 +29,7 @@ namespace QuizApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Role", x => x.Id);
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -72,9 +72,9 @@ namespace QuizApplication.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Role_RoleId",
+                        name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Role",
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -115,6 +115,9 @@ namespace QuizApplication.Migrations
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false),
                     QuestionId = table.Column<string>(type: "varchar(255)", nullable: false),
                     AnswerText = table.Column<string>(type: "text", nullable: false),
+                    AnswerText1 = table.Column<string>(type: "longtext", nullable: true),
+                    AnswerText2 = table.Column<string>(type: "longtext", nullable: true),
+                    AnswerText3 = table.Column<string>(type: "longtext", nullable: true),
                     CreatedBy = table.Column<string>(type: "longtext", nullable: true),
                     ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -185,8 +188,8 @@ namespace QuizApplication.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Role_ClassName",
-                table: "Role",
+                name: "IX_Roles_ClassName",
+                table: "Roles",
                 column: "ClassName",
                 unique: true);
 
@@ -226,7 +229,7 @@ namespace QuizApplication.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "Roles");
         }
     }
 }

@@ -28,7 +28,7 @@ namespace QuizApplication.Service.Implementation
             var createdBy = _httpContextAccessor.HttpContext.User.Identity.Name;
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var user = _unitOfWork.Users.Get(userIdClaim);
-
+            Answer answer = new Answer();  
             var question = new Question
             {
                 UserId = user.Id,
@@ -189,13 +189,7 @@ namespace QuizApplication.Service.Implementation
                         QuestionText = question.AskedQuestion,
                         UserName = question.User.UserName,
                         ImageUrl = question.ImageUrl,
-                        Answers = question.Answers
-                        .Select(answer => new AnswerViewModel
-                        {
-                            Id = answer.Id,
-                            AnswerChoosed = answer.AnswerText,
-                            UserName = answer.User.UserName,
-                        }).ToList(),
+                        
                     }).ToList();
 
                 response.Status = true;
@@ -249,7 +243,10 @@ namespace QuizApplication.Service.Implementation
                             {
                                 Id = c.Id,
                                 UserId = c.UserId,
-                                AnswerChoosed = c.AnswerText,
+                                AnswerChoosedA = c.AnswerText,
+                                AnswerChoosedB = c.AnswerText1,
+                                AnswerChoosedC = c.AnswerText2,
+                                AnswerChoosedD = c.AnswerText3,
                                 UserName = c.User.UserName
                             }).ToList(),
             };
@@ -321,7 +318,10 @@ namespace QuizApplication.Service.Implementation
                             {
                                 Id = c.Id,
                                 UserId = c.UserId,
-                                AnswerChoosed = c.AnswerText,
+                                AnswerChoosedA = c.AnswerText,
+                                AnswerChoosedB = c.AnswerText1,
+                                AnswerChoosedC = c.AnswerText2,
+                                AnswerChoosedD = c.AnswerText3,
                                 UserName = c.User.UserName
                             })
                             .ToList()

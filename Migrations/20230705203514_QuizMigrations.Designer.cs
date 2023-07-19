@@ -11,7 +11,7 @@ using QuizApplication.Context;
 namespace QuizApplication.Migrations
 {
     [DbContext(typeof(QuizApplicationContext))]
-    [Migration("20230619215508_QuizMigrations")]
+    [Migration("20230705203514_QuizMigrations")]
     partial class QuizMigrations
     {
         /// <inheritdoc />
@@ -30,6 +30,15 @@ namespace QuizApplication.Migrations
                     b.Property<string>("AnswerText")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("AnswerText1")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AnswerText2")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AnswerText3")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
@@ -139,7 +148,7 @@ namespace QuizApplication.Migrations
                     b.HasIndex("ClassName")
                         .IsUnique();
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("QuizApplication.Entities.Subject", b =>

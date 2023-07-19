@@ -36,9 +36,16 @@ namespace QuizApplication.Controllers
             return View(questions.Data);
         }
 
+		public IActionResult Create()
+		{
+			ViewBag.Subjects = _subjectService.SelectSubject();
+			ViewData["Message"] = "";
+			ViewData["Status"] = false;
 
-        
-        [HttpPost]
+			return View();
+		}
+
+		[HttpPost]
         public IActionResult Create(CreateQuestionViewModel request)
         {
             var response = _questionService.Create(request);

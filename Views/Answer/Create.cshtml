@@ -1,6 +1,6 @@
 ﻿@model QuizApplication.Models.Answer.CreateAnswerViewModel
 @{
-    ViewData["Title"] = "Write Answer";
+    ViewData["Title"] = "Create Answer";
     var questionId = ViewContext.RouteData.Values["id"];
 }
 
@@ -10,21 +10,41 @@
 
     <div class="row">
         <div class="col-md-6">
-            <hr />
-            <form asp-action="create">
+           
+            <form asp-action="Create">
                 <input type="hidden" class="form-control" asp-for="QuestionId" value="@questionId" />
 
                 <div class="col-md-12 mb-2">
-                    <label for="AnswerChoosed" class="form-label">Answer:</label>
-                    <textarea class="form-control" placeholder="Enter Your Answer" asp-for="AnswerChoosed"></textarea>
-                    <span asp-validation-for="AnswerChoosed" class="text-danger"></span>
+                    <label for="AnswerChoosed" class="form-label">A:</label>
+                    <textarea class="form-control" placeholder="Enter Your Answer" asp-for="AnswerChoosedA"></textarea>
+                    <span asp-validation-for="AnswerChoosedA" class="text-danger"></span>
                 </div>
 
-                <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">Submit Answer</button>
+                <div class="col-md-12 mb-2">
+                    <label for="AnswerChoosed" class="form-label">B:</label>
+                    <textarea class="form-control" placeholder="Enter Your Answer" asp-for="AnswerChoosedB"></textarea>
+                    <span asp-validation-for="AnswerChoosedB" class="text-danger"></span>
                 </div>
+
+                <div class="col-md-12 mb-2">
+                    <label for="AnswerChoosed" class="form-label">C:</label>
+                    <textarea class="form-control" placeholder="Enter Your Answer" asp-for="AnswerChoosedC"></textarea>
+                    <span asp-validation-for="AnswerChoosedC" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <label for="AnswerChoosed" class="form-label">D:</label>
+                    <textarea class="form-control" placeholder="Enter Your Answer" asp-for="AnswerChoosedD"></textarea>
+                    <span asp-validation-for="AnswerChoosedD" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <button><a asp-controller="Question" asp-action="Index" class="btn btn-outline-primary">Create Answer</a></button>
+                    
+                </div>
+                    
             </form>
         </div>
     </div>
-
+    
 </div>

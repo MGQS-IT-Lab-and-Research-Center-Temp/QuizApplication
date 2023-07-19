@@ -49,7 +49,10 @@ namespace QuizApplication.Service.Implementation
                 User = user,
                 QuestionId = question.Id,
                 Question = question,
-                AnswerText = request.AnswerChoosed,
+                AnswerText = request.AnswerChoosedA,
+                AnswerText1 = request.AnswerChoosedB,
+                AnswerText2 = request.AnswerChoosedC,
+                AnswerText3 = request.AnswerChoosedD,
                 CreatedBy = createdBy,
             };
 
@@ -90,7 +93,10 @@ namespace QuizApplication.Service.Implementation
                 return response;
             }
 
-            answer.AnswerText = request.AnswerChoosed;
+            answer.AnswerText = request.AnswerChoosedA;
+            answer.AnswerText1 = request.AnswerChoosedB;
+            answer.AnswerText2 = request.AnswerChoosedC;
+            answer.AnswerText3 = request.AnswerChoosedD;
             answer.ModifiedBy = modifiedBy;
 
             try
