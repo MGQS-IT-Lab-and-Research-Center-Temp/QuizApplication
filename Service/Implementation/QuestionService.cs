@@ -1,6 +1,5 @@
 ﻿using QuizApplication.Entities;
 using QuizApplication.Models;
-using QuizApplication.Models.Answer;
 using QuizApplication.Models.Question;
 using QuizApplication.Repositories.Interface;
 using QuizApplication.Service.Interface;
@@ -28,34 +27,29 @@ namespace QuizApplication.Service.Implementation
             var createdBy = _httpContextAccessor.HttpContext.User.Identity.Name;
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var user = _unitOfWork.Users.Get(userIdClaim);
-            Answer answer = new Answer();  
             var question = new Question
             {
                 UserId = user.Id,
-                AskedQuestion = request.QuestionAsked,
-                ImageUrl = request.ImageUrl,
+                QuestionText = request.QuestionText,
                 CreatedBy = createdBy,
             };
 
             var subjects = _unitOfWork.Subjects.GetAllByIds(request.SubjectIds);
 
-            var subjectQuestions = new HashSet<SubjectQuestion>();
+            var subjectQuestions = new HashSet<Question>();
 
             foreach (var subject in subjects)
             {
-                var subjectQuestion = new SubjectQuestion
+                var subjectQuestion = new Question
                 {
                     SubjectId = subject.Id,
-                    QuestionId = question.Id,
                     Subject = subject,
-                    Question = question,
-                    CreatedBy = createdBy
+      
                 };
 
                 subjectQuestions.Add(subjectQuestion);
             }
 
-            question.SubjectQuestions = subjectQuestions;
 
             try
             {
@@ -78,19 +72,12 @@ namespace QuizApplication.Service.Implementation
             var response = new BaseResponseModel();
             var modifiedBy = _httpContextAccessor.HttpContext.User.Identity.Name;
             var questionExist = _unitOfWork.Questions.Exists(c => c.Id == questionId);
-            var hasComment = _unitOfWork.Answers.Exists(c => c.Id == questionId);
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var user = _unitOfWork.Users.Get(userIdClaim);
 
             if (!questionExist)
             {
                 response.Message = "Question does not exist!";
-                return response;
-            }
-
-            if (hasComment is true)
-            {
-                response.Message = $"Could not update the Question";
                 return response;
             }
 
@@ -102,7 +89,7 @@ namespace QuizApplication.Service.Implementation
                 return response;
             }
 
-            question.AskedQuestion = request.QuestionAsked;
+            question.QuestionText = request.QuestionText;
             question.ModifiedBy = modifiedBy;
 
             try
@@ -126,11 +113,10 @@ namespace QuizApplication.Service.Implementation
 
             Expression<Func<Question, bool>> expression = (q => (q.Id == questionId)
                                         && (q.Id == questionId
-                                        && q.IsDeleted == false
-                                        && q.IsClosed == false));
+                                        && q.IsDeleted == false));
 
             var questionExist = _unitOfWork.Questions.Exists(expression);
-            var hasComment = _unitOfWork.Answers.Exists(c => c.Id == questionId);
+           
 
             if (!questionExist)
             {
@@ -138,11 +124,7 @@ namespace QuizApplication.Service.Implementation
                 return response;
             }
 
-            if (hasComment is true)
-            {
-                response.Message = $"Could not delete the Question";
-                return response;
-            }
+           
 
             var question = _unitOfWork.Questions.Get(questionId);
             question.IsDeleted = true;
@@ -186,10 +168,8 @@ namespace QuizApplication.Service.Implementation
                     .Select(question => new QuestionViewModel
                     {
                         Id = question.Id,
-                        QuestionText = question.AskedQuestion,
-                        UserName = question.User.UserName,
-                        ImageUrl = question.ImageUrl,
-                        
+                        QuestionText = question.QuestionText,
+                        UserName = question.User.UserName,                        
                     }).ToList();
 
                 response.Status = true;
@@ -233,22 +213,10 @@ namespace QuizApplication.Service.Implementation
             response.Data = new QuestionViewModel
             {
                 Id = question.Id,
-                QuestionText = question.AskedQuestion,
+                QuestionText = question.QuestionText,
                 UserId = question.UserId,
                 UserName = question.User.UserName,
-                ImageUrl = question.ImageUrl,
-                Answers = question.Answers
-                            .Where(c => !c.IsDeleted)
-                            .Select(c => new AnswerViewModel
-                            {
-                                Id = c.Id,
-                                UserId = c.UserId,
-                                AnswerChoosedA = c.AnswerText,
-                                AnswerChoosedB = c.AnswerText1,
-                                AnswerChoosedC = c.AnswerText2,
-                                AnswerChoosedD = c.AnswerText3,
-                                UserName = c.User.UserName
-                            }).ToList(),
+                
             };
 
             return response;
@@ -272,9 +240,12 @@ namespace QuizApplication.Service.Implementation
                                     .Select(question => new QuestionViewModel
                                     {
                                         Id = question.Id,
-                                        QuestionText = question.Question.AskedQuestion,
-                                        UserName = question.Question.User.UserName,
-                                        ImageUrl = question.Question.ImageUrl,
+                                        QuestionText = question.QuestionText,
+                                        UserName = question.User.UserName,
+                                        OptionA = question.OptionA,
+                                        OptionB = question.OptionB,
+                                        OptionC = question.OptionC,
+                                        OptionD = question.OptionD,
                                     }).ToList();
 
                 response.Status = true;
@@ -309,22 +280,12 @@ namespace QuizApplication.Service.Implementation
                     {
                         Id = question.Id,
                         UserId = question.UserId,
-                        QuestionText = question.AskedQuestion,
+                        QuestionText = question.QuestionText,
                         UserName = question.User.UserName,
-                        ImageUrl = question.ImageUrl,
-                        Answers = question.Answers
-                            .Where(c => !c.IsDeleted)
-                            .Select(c => new AnswerViewModel
-                            {
-                                Id = c.Id,
-                                UserId = c.UserId,
-                                AnswerChoosedA = c.AnswerText,
-                                AnswerChoosedB = c.AnswerText1,
-                                AnswerChoosedC = c.AnswerText2,
-                                AnswerChoosedD = c.AnswerText3,
-                                UserName = c.User.UserName
-                            })
-                            .ToList()
+                        OptionA = question.OptionA,
+                        OptionB = question.OptionB,
+                        OptionC = question.OptionC,
+                        OptionD = question.OptionD,
                     }).ToList();
 
                 response.Status = true;

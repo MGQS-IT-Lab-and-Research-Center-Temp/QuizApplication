@@ -8,7 +8,7 @@ namespace QuizApplication.Repositories.Interface
         List<Question> GetQuestions();
         List<Question> GetQuestions(Expression<Func<Question, bool>> expression);
         Question GetQuestion(Expression<Func<Question, bool>> expression);
-        List<SubjectQuestion> GetQuestionBySubjectId(string id);
-        List<SubjectQuestion> SelectQuestionBySubject();
+        List<Question> GetQuestionBySubjectId(string id);
+        List<Question> SelectQuestionBySubject();
     }
 }

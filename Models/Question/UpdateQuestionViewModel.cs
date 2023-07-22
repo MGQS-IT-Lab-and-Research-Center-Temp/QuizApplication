@@ -6,8 +6,6 @@ namespace QuizApplication.Models.Question
     {
         public int Id { get; set; }
 
-        public string QuestionAsked { get; set; }
-
-        public string ImageUrl { get; set; }
+        public string QuestionText { get; set; }
     }
 }

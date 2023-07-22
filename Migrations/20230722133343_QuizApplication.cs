@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace QuizApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class QuizMigrations : Migration
+    public partial class QuizApplication : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -85,10 +85,14 @@ namespace QuizApplication.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    QuestionText = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    OptionA = table.Column<string>(type: "longtext", nullable: false),
+                    OptionB = table.Column<string>(type: "longtext", nullable: false),
+                    OptionC = table.Column<string>(type: "longtext", nullable: false),
+                    OptionD = table.Column<string>(type: "longtext", nullable: false),
+                    CorrectOption = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    AskedQuestion = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
-                    ImageUrl = table.Column<string>(type: "varchar(255)", nullable: true),
-                    IsClosed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    SubjectId = table.Column<string>(type: "varchar(255)", nullable: true),
                     CreatedBy = table.Column<string>(type: "longtext", nullable: true),
                     ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -99,6 +103,11 @@ namespace QuizApplication.Migrations
                 {
                     table.PrimaryKey("PK_Questions", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Questions_Subjects_SubjectId",
+                        column: x => x.SubjectId,
+                        principalTable: "Subjects",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Questions_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
@@ -107,80 +116,10 @@ namespace QuizApplication.Migrations
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
-            migrationBuilder.CreateTable(
-                name: "Answers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    QuestionId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    AnswerText = table.Column<string>(type: "text", nullable: false),
-                    AnswerText1 = table.Column<string>(type: "longtext", nullable: true),
-                    AnswerText2 = table.Column<string>(type: "longtext", nullable: true),
-                    AnswerText3 = table.Column<string>(type: "longtext", nullable: true),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Answers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Answers_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Answers_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "SubjectQuestions",
-                columns: table => new
-                {
-                    SubjectId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    QuestionId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SubjectQuestions", x => new { x.SubjectId, x.QuestionId });
-                    table.ForeignKey(
-                        name: "FK_SubjectQuestions_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SubjectQuestions_Subjects_SubjectId",
-                        column: x => x.SubjectId,
-                        principalTable: "Subjects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
             migrationBuilder.CreateIndex(
-                name: "IX_Answers_QuestionId",
-                table: "Answers",
-                column: "QuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Answers_UserId",
-                table: "Answers",
-                column: "UserId");
+                name: "IX_Questions_SubjectId",
+                table: "Questions",
+                column: "SubjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_UserId",
@@ -192,11 +131,6 @@ namespace QuizApplication.Migrations
                 table: "Roles",
                 column: "ClassName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SubjectQuestions_QuestionId",
-                table: "SubjectQuestions",
-                column: "QuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subjects_Name",
@@ -213,12 +147,6 @@ namespace QuizApplication.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Answers");
-
-            migrationBuilder.DropTable(
-                name: "SubjectQuestions");
-
             migrationBuilder.DropTable(
                 name: "Questions");
 

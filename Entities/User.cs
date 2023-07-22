@@ -9,7 +9,6 @@
         public string RoleId { get; set; }
         public Role Role { get; set; }
         public ICollection<Question> Questions { get; set; } = new HashSet<Question>();
-        public ICollection<Answer> Answers { get; set; } = new HashSet<Answer>();
-        
+               
     }
 }
