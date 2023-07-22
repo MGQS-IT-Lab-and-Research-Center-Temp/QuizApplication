@@ -17,12 +17,46 @@
             <form asp-action="Create">
                 <div class="col-md-12 mb-2">
                     <label class="form-label">Question:</label>
-                    <textarea class="form-control" placeholder="Enter your question" asp-for="QuestionAsked"></textarea>
-                    <span asp-validation-for="QuestionAsked" class="text-danger"></span>
+                    <textarea class="form-control" placeholder="Enter your question" asp-for="QuestionText"></textarea>
+                    <span asp-validation-for="QuestionText" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <label class="form-label">Option A:</label>
+                    <input class="form-control" placeholder="Option A" asp-for="OptionA">
+                    <span asp-validation-for="OptionA" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <label class="form-label">Option B:</label>
+                    <input class="form-control" placeholder="Option B" asp-for="OptionB">
+                    <span asp-validation-for="OptionB" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <label class="form-label">Option C:</label>
+                    <input class="form-control" placeholder="Option C" asp-for="OptionC">
+                    <span asp-validation-for="OptionC" class="text-danger"></span>
                 </div>
                 
+                <div class="col-md-12 mb-2">
+                    <label class="form-label">Option D:</label>
+                    <input class="form-control" placeholder="Option D" asp-for="OptionD">
+                    <span asp-validation-for="OptionD" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <select asp-for="CorrectOption" class="form-control">
+                        <option>--Select Correct Option--</option>
+                        <option value="1">Option A</option>
+                        <option value="2">Option B</option>
+                        <option value="3">Option C</option>
+                        <option value="4">Option D</option>
+                    </select>
+                </div>
+
                 <div>
-                    <a asp-controller="Answer" asp-action="Create" class="btn btn-outline-primary">Create Question</a>
+                    <a asp-controller="Question" asp-action="Index" class="btn btn-outline-primary">Create Question</a>
                 </div>
 
                 

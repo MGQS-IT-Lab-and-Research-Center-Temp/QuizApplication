@@ -19,77 +19,19 @@ namespace QuizApplication.Migrations
                 .HasAnnotation("ProductVersion", "7.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("QuizApplication.Entities.Answer", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("AnswerText")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("AnswerText1")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("AnswerText2")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("AnswerText3")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("QuestionId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Answers", (string)null);
-                });
-
             modelBuilder.Entity("QuizApplication.Entities.Question", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("AskedQuestion")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
+                    b.Property<int>("CorrectOption")
+                        .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<bool>("IsClosed")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
@@ -100,11 +42,37 @@ namespace QuizApplication.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("OptionA")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OptionB")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OptionC")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OptionD")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("QuestionText")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
 
                     b.HasIndex("UserId");
 
@@ -185,36 +153,6 @@ namespace QuizApplication.Migrations
                     b.ToTable("Subjects", (string)null);
                 });
 
-            modelBuilder.Entity("QuizApplication.Entities.SubjectQuestion", b =>
-                {
-                    b.Property<string>("SubjectId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("QuestionId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("SubjectId", "QuestionId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("SubjectQuestions", (string)null);
-                });
-
             modelBuilder.Entity("QuizApplication.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -261,53 +199,21 @@ namespace QuizApplication.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("QuizApplication.Entities.Answer", b =>
-                {
-                    b.HasOne("QuizApplication.Entities.Question", "Question")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuizApplication.Entities.User", "User")
-                        .WithMany("Answers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("QuizApplication.Entities.Question", b =>
                 {
+                    b.HasOne("QuizApplication.Entities.Subject", "Subject")
+                        .WithMany("Questions")
+                        .HasForeignKey("SubjectId");
+
                     b.HasOne("QuizApplication.Entities.User", "User")
                         .WithMany("Questions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("QuizApplication.Entities.SubjectQuestion", b =>
-                {
-                    b.HasOne("QuizApplication.Entities.Question", "Question")
-                        .WithMany("SubjectQuestions")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuizApplication.Entities.Subject", "Subject")
-                        .WithMany("SubjectQuestions")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-
                     b.Navigation("Subject");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("QuizApplication.Entities.User", b =>
@@ -321,13 +227,6 @@ namespace QuizApplication.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("QuizApplication.Entities.Question", b =>
-                {
-                    b.Navigation("Answers");
-
-                    b.Navigation("SubjectQuestions");
-                });
-
             modelBuilder.Entity("QuizApplication.Entities.Role", b =>
                 {
                     b.Navigation("Users");
@@ -335,13 +234,11 @@ namespace QuizApplication.Migrations
 
             modelBuilder.Entity("QuizApplication.Entities.Subject", b =>
                 {
-                    b.Navigation("SubjectQuestions");
+                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("QuizApplication.Entities.User", b =>
                 {
-                    b.Navigation("Answers");
-
                     b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618

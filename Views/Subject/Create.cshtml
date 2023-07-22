@@ -1,41 +1,45 @@
-﻿@model List<QuizApplication.Models.Subject.CreateSubjectViewModel>
+﻿@model QuizApplication.Models.Subject.CreateSubjectViewModel
+
 @{
-    ViewData["Title"] = "Subject List";
-    int count = 1;
+    ViewData["Title"] = "Create Subject";
 }
 
-<div>
-    <a asp-controller="Subject" asp-action="Create" class="btn btn-outline-primary">Add New Subject</a>
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_Select2CssPartial");
+    }
+}
+
+<div class="body">
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create">
+                <div class="col-md-12 mb-2">
+                    <label class="form-label">Name:</label>
+                    <textarea class="form-control" placeholder="Enter Subject Name" asp-for="Name"></textarea>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <label class="form-label">Description:</label>
+                    <textarea class="form-control" placeholder="Enter Description" asp-for="Description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <a asp-controller="Subject" asp-action="Create" class="btn btn-outline-primary">Create Question</a>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
 </div>
 
-@await Html.PartialAsync("_ListAlert", Model)
-
-@if (Model is not null)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">S/N</th>
-                <th scope="col">Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td scope="row">@count</td>
-                    <td>@item.Name</td>
-                    <td>@item.Description</td>
-                    <td>
-                        <div class="btn-group">
-                            <a asp-controller="Question" asp-action="GetQuestionBySubject" class="btn btn-primary">View Questions</a>
-                        </div>
-                    </td>
-                </tr>
-                count++;
-            }
-        </tbody>
-    </table>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_Select2JsPartial");
+    }
 }
+

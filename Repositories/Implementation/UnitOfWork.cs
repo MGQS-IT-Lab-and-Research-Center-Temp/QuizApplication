@@ -11,22 +11,20 @@ namespace QuizApplication.Repositories.Implementation
         public IUserRepository Users { get; }
         public ISubjectRepository Subjects { get; }
         public IQuestionRepository Questions { get; }
-        public IAnswerRepository Answers { get; }
 
         public UnitOfWork(
             QuizApplicationContext context,
             IRoleRepository roleRepository,
             IUserRepository userRepository,
             ISubjectRepository subjectRepository,
-            IQuestionRepository questionRepository,
-            IAnswerRepository answerRepository)
+            IQuestionRepository questionRepository)
+            
         {
             _context = context;
             Roles = roleRepository;
             Users = userRepository;
             Subjects = subjectRepository;
             Questions = questionRepository;
-            Answers = answerRepository;
         }
 
         public int SaveChanges()

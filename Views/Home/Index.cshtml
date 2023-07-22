@@ -16,11 +16,6 @@
         <div>
             
             <button type="button" class="btn btn-primary btn-sm">
-                Answers
-                <span class="badge rounded-pill bg-danger">
-                    @question.Answers.Count
-                    <span class="visually-hidden">Comments Count</span>
-                </span>
             </button>
             <a asp-controller="Answer" asp-action="Create" asp-route-id="@question.Id" class="btn btn-success btn-sm">
                 Your answer

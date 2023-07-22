@@ -21,9 +21,6 @@ builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
-builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
-builder.Services.AddScoped<IAnswerService, AnswerService>();
-
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

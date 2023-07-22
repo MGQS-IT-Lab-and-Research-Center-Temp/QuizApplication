@@ -11,26 +11,29 @@ namespace QuizApplication.Context.EntityConfiguration
             builder.ToTable("Questions");
             builder.HasKey(q => q.Id);
 
+            builder.Property(q => q.QuestionText)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            builder.Property(q => q.OptionA)
+               .IsRequired();
+
+            builder.Property(q => q.OptionB)
+               .IsRequired();
+
+            builder.Property(q => q.OptionC)
+               .IsRequired();
+
+            builder.Property(q => q.OptionD)
+               .IsRequired();
+
+            builder.Property(q => q.CorrectOption)
+               .IsRequired();
+
             builder.HasOne(q => q.User)
                 .WithMany(u => u.Questions)
                 .HasForeignKey(q => q.UserId)
                 .IsRequired();
-
-            builder.Property(q => q.AskedQuestion)
-                .IsRequired()
-                .HasMaxLength(150);
-
-            builder.Property(q => q.ImageUrl)
-                .HasColumnType("varchar(255)");
-
-            builder.HasMany(q => q.SubjectQuestions)
-                .WithOne(cq => cq.Question)
-                .IsRequired();
-
-            builder.HasMany(q => q.Answers)
-                .WithOne(c => c.Question)
-                .IsRequired();
-
         }
     }
 }
