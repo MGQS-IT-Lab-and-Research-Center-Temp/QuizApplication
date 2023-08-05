@@ -11,6 +11,7 @@ namespace QuizApplication.Models.Question
         public string OptionB { get; set; }
         public string OptionC { get; set; }
         public string OptionD { get; set; }
+        public string CorrectOption { get; set; }
         public string UserName { get; set; }
         
     }

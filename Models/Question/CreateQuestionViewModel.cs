@@ -5,7 +5,7 @@ namespace QuizApplication.Models.Question
     public class CreateQuestionViewModel
     {
         [Required(ErrorMessage = "One or more Subject need to be selected")]
-        public List<string> SubjectIds { get; set; }
+        public string SubjectId { get; set; }
         public string QuestionText { get; set; }
         public string OptionA { get; set; }
         public string OptionB { get; set; }

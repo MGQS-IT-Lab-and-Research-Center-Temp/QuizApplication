@@ -10,6 +10,7 @@ namespace QuizApplication.Service.Interface
         BaseResponseModel DeleteSubject(string subjectId);
         BaseResponseModel UpdateSubject(string subjectId, UpdateSubjectViewModel updateSubjectDto);
         SubjectResponseModel GetSubject(string subjectId);
-        IEnumerable<SelectListItem> SelectSubject();
+		SubjectsResponseModel GetAllSubject();
+		IEnumerable<SelectListItem> SelectSubject();
     }
 }

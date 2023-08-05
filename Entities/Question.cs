@@ -12,7 +12,5 @@
         public User User { get; set; }
         public string SubjectId { get; set; }
         public Subject Subject { get; set; }
-       
-       
     }
 }

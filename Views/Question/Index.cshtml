@@ -1,38 +1,42 @@
 ﻿@model List<QuizApplication.Models.Question.QuestionViewModel>
 
 @{
-    ViewData["Title"] = "Question List";
-    int count = 1;
+	ViewData["Title"] = "Question List";
+	int count = 1;
 }
 
 @await Html.PartialAsync("_ListAlert", Model)
 
 @if (Model is not null)
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Question</th>
-                <th scope="col"></th>
-                
-            </tr>
-        </thead>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Question</th>
+				<th scope="col">Options</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td scope="row">@count</td>
+					<td>
+						@item.QuestionText
+					</td>
+					<td>
+						@Html.RadioButton("Answer","OptionA",item.CorrectOption) <span>@item.OptionA</span>
+						@Html.RadioButton("Answer","OptionB",item.CorrectOption) <span>@item.OptionB</span>
+						@Html.RadioButton("Answer","OptionC",item.CorrectOption) <span>@item.OptionC</span>
+						@Html.RadioButton("Answer","OptionD",item.CorrectOption) <span>@item.OptionD</span>
+					</td>
+				</tr>
+				count++;
+			}
+		</tbody>
 
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td scope="row">@count</td>
-                    <td scope="row">@item.QuestionText</td>
-                    <td scope="row">
-                        
-                    </td>
-                </tr>
-                count++;
-            }
-        </tbody>
-    </table>
+	</table>
 }
 
 

@@ -1,81 +1,104 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Authorization;
+﻿using QuizApplication.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using QuizApplication.Models.Subject;
-using QuizApplication.Service.Interface;
 
 namespace QuizApplication.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class SubjectController : Controller
-    {
-        private readonly ISubjectService _subjectService;
-        private readonly INotyfService _notyf;
+	[Authorize(Roles = "Admin")]
+	public class SubjectController : Controller
+	{
+		private readonly ISubjectService _subjectService;
+		private readonly INotyfService _notyf;
 
-        public SubjectController(ISubjectService subjectService, INotyfService notyfService)
-        {
-            _subjectService = subjectService;
-            _notyf = notyfService;
-        }
+		public SubjectController(ISubjectService subjectService, INotyfService notyfService)
+		{
+			_subjectService = subjectService;
+			_notyf = notyfService;
+		}
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+		public IActionResult Index()
+		{
+			var response = _subjectService.GetAllSubject();
+			ViewData["Message"] = response.Message;
+			ViewData["Status"] = response.Status;
 
-        [HttpPost]
-        public IActionResult Create(CreateSubjectViewModel request)
-        {
-            var response = _subjectService.CreateSubject(request);
+			return View(response.Data);
+		}
 
-            if (response.Status is false)
-            {
-                _notyf.Error(response.Message);
-                return View(request);
-            }
+		public IActionResult Create()
+		{
+			return View();
+		}
 
-            _notyf.Success(response.Message);
+		[HttpPost]
+		public IActionResult Create(CreateSubjectViewModel request)
+		{
+			var response = _subjectService.CreateSubject(request);
 
-            return RedirectToAction("Index", "Question"); ;
-        }
+			if (response.Status is false)
+			{
+				_notyf.Error(response.Message);
+				return View(request);
+			}
 
-        public IActionResult GetSubject(string id)
-        {
-            var response = _subjectService.GetSubject(id);
+			_notyf.Success(response.Message);
 
-            if (response.Status is false)
-            {
-                _notyf.Error(response.Message);
-                return RedirectToAction("Index", "Subject");
-            }
+			return RedirectToAction("Index", "Subject"); ;
+		}
 
-            _notyf.Success(response.Message);
+		public IActionResult GetSubject(string id)
+		{
+			var response = _subjectService.GetSubject(id);
 
-            return View(response.Data);
+			if (response.Status is false)
+			{
+				_notyf.Error(response.Message);
+				return RedirectToAction("Index", "Subject");
+			}
 
-        }
+			_notyf.Success(response.Message);
 
-        public IActionResult Update()
-        {
-            return View();
-        }
+			return View(response.Data);
 
-        [HttpPost]
-        public IActionResult UpdateSubject(string id, UpdateSubjectViewModel request)
-        {
-            var response = _subjectService.UpdateSubject(id, request);
+		}
 
-            if (response.Status is false)
-            {
-                _notyf.Error(response.Message);
-                return View(request);
-            }
+		public IActionResult Update()
+		{
+			return View();
+		}
 
-            _notyf.Success(response.Message);
+		[HttpPost]
+		public IActionResult Update(string id, UpdateSubjectViewModel request)
+		{
+			var response = _subjectService.UpdateSubject(id, request);
 
-            return RedirectToAction("Index", "Category");
-        }
+			if (response.Status is false)
+			{
+				_notyf.Error(response.Message);
+				return View(request);
+			}
 
-        
-    }
+			_notyf.Success(response.Message);
+
+			return RedirectToAction("Index", "Category");
+		}
+
+		[HttpPost]
+		public IActionResult DeleteSubject([FromRoute] string id)
+		{
+			var response = _subjectService.DeleteSubject(id);
+
+			if (response.Status is false)
+			{
+				_notyf.Error(response.Message);
+				return RedirectToAction("Index", "Subject");
+			}
+
+			_notyf.Success(response.Message);
+
+			return RedirectToAction("Index", "Subject");
+		}
+	}
 }

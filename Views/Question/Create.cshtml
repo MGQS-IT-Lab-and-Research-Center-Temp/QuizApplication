@@ -16,6 +16,13 @@
         <div class="col-md-6">
             <form asp-action="Create">
                 <div class="col-md-12 mb-2">
+                    <label class="form-label">Pick a Subjects :</label>
+                    <select asp-for="SubjectId" class="form-control" asp-items="@ViewBag.Subjects" data-placeholder="Select Subject">
+                    </select>
+                    <span asp-validation-for="SubjectId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12 mb-2">
                     <label class="form-label">Question:</label>
                     <textarea class="form-control" placeholder="Enter your question" asp-for="QuestionText"></textarea>
                     <span asp-validation-for="QuestionText" class="text-danger"></span>

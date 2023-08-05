@@ -38,10 +38,6 @@ namespace QuizApplication.Controllers
 
 		public IActionResult Create()
 		{
-			ViewBag.Subjects = _subjectService.SelectSubject();
-			ViewData["Message"] = "";
-			ViewData["Status"] = false;
-
 			return View();
 		}
 

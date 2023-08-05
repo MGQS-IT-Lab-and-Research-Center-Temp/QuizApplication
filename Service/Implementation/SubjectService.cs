@@ -34,12 +34,6 @@ namespace QuizApplication.Service.Implementation
                 return response;
             }
 
-            if (string.IsNullOrWhiteSpace(request.Name))
-            {
-                response.Message = "Subject name is required!";
-                return response;
-            }
-
             var subject = new Subject
             {
                 Name = request.Name,
@@ -48,7 +42,7 @@ namespace QuizApplication.Service.Implementation
             };
 
             try
-            {
+            { 
                 _unitOfWork.Subjects.Create(subject);
                 _unitOfWork.SaveChanges();
                 response.Status = true;
@@ -61,6 +55,7 @@ namespace QuizApplication.Service.Implementation
                 response.Message = $"Failed to create subject at this time: {ex.Message}";
                 return response;
             }
+
         }
 
         public BaseResponseModel DeleteSubject(string subjectId)
@@ -93,7 +88,41 @@ namespace QuizApplication.Service.Implementation
             }
         }
 
-        public SubjectResponseModel GetSubject(string subjectId)
+		public SubjectsResponseModel GetAllSubject()
+		{
+			var response = new SubjectsResponseModel();
+
+			try
+			{
+				Expression<Func<Subject, bool>> expression = c => c.IsDeleted == false;
+				var subject = _unitOfWork.Subjects.GetAll(expression);
+
+				if (subject is null || subject.Count == 0)
+				{
+					response.Message = "No subject found!";
+					return response;
+				}
+
+				response.Data = subject.Select(
+					subject => new SubjectViewModel
+					{
+						Id = subject.Id,
+						Name = subject.Name,
+						Description = subject.Description
+					}).ToList();
+
+                response.Status = true;
+                response.Message = "Success";
+            }
+			catch (Exception ex)
+			{
+				response.Message = ex.Message;
+				return response;
+			}
+
+			return response;
+		}
+		public SubjectResponseModel GetSubject(string subjectId)
         {
             var response = new SubjectResponseModel();
 
@@ -136,13 +165,13 @@ namespace QuizApplication.Service.Implementation
                 return response;
             }
 
-            var category = _unitOfWork.Subjects.Get(subjectId);
-            category.Description = request.Description;
-            category.ModifiedBy = modifiedBy;
+            var subject = _unitOfWork.Subjects.Get(subjectId);
+            subject.Description = request.Description;
+            subject.ModifiedBy = modifiedBy;
 
             try
             {
-                _unitOfWork.Subjects.Update(category);
+                _unitOfWork.Subjects.Update(subject);
                 _unitOfWork.SaveChanges();
                 response.Message = "Subject updated successfully.";
 

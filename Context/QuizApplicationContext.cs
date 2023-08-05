@@ -1,8 +1,5 @@
 ﻿using QuizApplication.Entities;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 using System.Reflection;
-using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace QuizApplication.Context

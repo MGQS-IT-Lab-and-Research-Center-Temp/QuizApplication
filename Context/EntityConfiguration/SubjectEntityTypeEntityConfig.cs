@@ -10,17 +10,21 @@ namespace QuizApplication.Context.EntityConfiguration
         {
             builder.ToTable("Subjects");
 
-            builder.HasKey(c => c.Id);
+            builder.HasKey(s => s.Id);
 
-            builder.Property(c => c.Name)
+            builder.Property(s => s.Name)
                 .IsRequired()
                 .HasMaxLength(50);
 
-            builder.HasIndex(c => c.Name)
+            builder.HasIndex(s => s.Name)
              .IsUnique();
 
-            builder.Property(c => c.Description)
+            builder.Property(s => s.Description)
                 .HasMaxLength(200);
+
+            builder.HasMany(s => s.Questions)
+                   .WithOne(q => q.Subject)
+                   .HasForeignKey(u => u.SubjectId);
         }
     }
 

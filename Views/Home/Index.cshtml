@@ -5,9 +5,18 @@
     ViewData["Title"] = "Home";
 }
 
-@await Html.PartialAsync("_ListAlert", Model)
+@*@await Html.PartialAsync("_ListAlert")*@
 
-@if (Model is not null)
+<h2>
+    Are You Ready To Take The Test
+</h2>
+
+<a asp-controller="Question" asp-action="Index" class="btn btn-success btn-sm">
+    Start
+</a>
+
+
+@*@if (Model is not null)
 {
     @foreach (var question in Model)
     {
@@ -28,4 +37,4 @@
            
         </div>
     }
-}
+}*@

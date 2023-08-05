@@ -27,6 +27,7 @@ namespace QuizApplication.Service.Implementation
             var createdBy = _httpContextAccessor.HttpContext.User.Identity.Name;
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var user = _unitOfWork.Users.Get(userIdClaim);
+
             var question = new Question
             {
                 UserId = user.Id,
@@ -34,29 +35,12 @@ namespace QuizApplication.Service.Implementation
                 CreatedBy = createdBy,
             };
 
-            var subjects = _unitOfWork.Subjects.GetAllByIds(request.SubjectIds);
-
-            var subjectQuestions = new HashSet<Question>();
-
-            foreach (var subject in subjects)
-            {
-                var subjectQuestion = new Question
-                {
-                    SubjectId = subject.Id,
-                    Subject = subject,
-      
-                };
-
-                subjectQuestions.Add(subjectQuestion);
-            }
-
-
             try
             {
                 _unitOfWork.Questions.Create(question);
                 _unitOfWork.SaveChanges();
-                response.Message = "Question created successfully!";
                 response.Status = true;
+                response.Message = "Question created successfully!";
 
                 return response;
             }
@@ -155,7 +139,7 @@ namespace QuizApplication.Service.Implementation
                 var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                 Expression<Func<Question, bool>> expression = q => q.UserId == userIdClaim;
 
-                var questions = IsInRole ? _unitOfWork.Questions.GetQuestions() : _unitOfWork.Questions.GetQuestions(expression);
+                var questions = _unitOfWork.Questions.GetAll(r => r.IsDeleted == false);
 
                 if (questions.Count == 0)
                 {
@@ -198,18 +182,8 @@ namespace QuizApplication.Service.Implementation
                 return response;
             }
 
-            question = IsInRole ? _unitOfWork.Questions.GetQuestion(q => q.Id == id && !q.IsDeleted) : _unitOfWork.Questions.GetQuestion(q => q.Id == id
-                                                && q.UserId == userIdClaim
-                                                && !q.IsDeleted);
+            var questions = _unitOfWork.Questions.Get(id);
 
-            if (question is null)
-            {
-                response.Message = "Question not found!";
-                return response;
-            }
-
-            response.Message = "Success";
-            response.Status = true;
             response.Data = new QuestionViewModel
             {
                 Id = question.Id,
@@ -218,6 +192,9 @@ namespace QuizApplication.Service.Implementation
                 UserName = question.User.UserName,
                 
             };
+
+            response.Message = "Success";
+            response.Status = true;
 
             return response;
         }
